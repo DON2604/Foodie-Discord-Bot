@@ -46,10 +46,8 @@ async def on_ready():
 
 @client.slash_command(name="test", description="Send your input to Generative AI")
 async def test(interaction: Interaction, question: str):
-    # Send initial response to acknowledge the command
     await interaction.response.send_message("Generating response...", ephemeral=True)
 
-    # Send user input directly to the generative model
     convo = model.start_chat(history=[])
     convo.send_message(question)
     response = convo.last.text
@@ -58,7 +56,6 @@ async def test(interaction: Interaction, question: str):
     if len(response) > 2000:
         response = response[:1997] + "..."
 
-    # Send the generative AI response
     await interaction.followup.send(f"Generative AI response:\n{response}")
 
 client.run(dtoken)
